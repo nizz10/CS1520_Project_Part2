@@ -1,10 +1,9 @@
 function storeData(){
   var inputs = document.getElementsByTagName("input");
-  var message = document.getElementsByTagName("textarea")[0].value;
-  alert("textarea: " + message);
+
   for(var i = 0; i < inputs.length; i++)
   {
-    alert("input: " + inputs[i].value);
+    // alert("input: " + inputs[i].value);
     // alert("textarea: " + textarea);
     if(inputs[i].value == "")
     {
@@ -34,12 +33,11 @@ function storeData(){
         break;
       }
 
-    }
+      if(i == inputs.length-2)
+      {
+        document.getElementsByClassName("result")[0].innerHTML = 'Your message is successfully stored!';
+      }
 
-
-    if(i == inputs.length-2)
-    {
-      document.getElementsByClassName("result")[0].innerHTML = 'Your message is successfully stored!';
     }
 
     // var message = document.getElementsByTagName("textarea");

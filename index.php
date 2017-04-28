@@ -138,7 +138,7 @@
         <div class="col-sm-9">
           <div class="col-sm-3">
             <h5>September 2016 - December 2016</h5>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <h5>July 2015</h5>
           </div>
           <div class="col-sm-9">
@@ -184,6 +184,20 @@
       </div>
     </div>
 
+    <?php
+      $name = $email = $message = "";
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = $_POST["name"];
+        $email = $_POST["email"];
+        if (empty($_POST["message"])){
+          $message = "";
+        }
+        else{
+          $message = $_POST["message"];
+        }
+      }
+     ?>
+
     <div id="contact" class="container contact">
       <h3 class="text-center">Contact</h3><hr>
       <div class="row">
@@ -198,11 +212,11 @@
 
         </div>
         <div class="col-sm-9">
-          <form name="registerForm">
+          <form name="registerForm" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> method="post">
             <fieldset>
               <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" name="name" placeholder="Name">
+                <input type="text" class="form-control" name="name" placeholder="Name" >
               </div>
               <div class="form-group">
                 <label for="email">Email address:</label>
@@ -212,7 +226,7 @@
                 <label for="comment">Message:</label>
                 <textarea class="form-control" rows="5" name="message" placeholder="Message"></textarea>
               </div>
-              <button type="button" class="btn btn-default" onclick="storeData();">Submit</button>
+              <button type="submit" class="btn btn-default" onclick="storeData();">Submit</button>
             </fieldset>
           </form>
           <br>
@@ -236,12 +250,21 @@
       </a>
     </footer>
     <?php
-      $servername = 'localhost';
-      $username = '';
-      $password = '';
-      $dbname = '';
+      if(!empty($_POST['email']) && !empty($_POST['name']))
+      {
+        $servername = 'localhost';
+        $username = 'root';
+        $password = '';
+        $dbname = 'Message';
 
-      $newLink = new LinkToDatabase($servername, $username, $password, $dbname);
+        $newLink = new LinkToDatabase($servername, $username, $password, $dbname);
+        $newLink->connectToDb();
+
+        $newLink->insertMessage($name, $email, $message);
+        $newLink->disconnect();
+      }
+
+
      ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
